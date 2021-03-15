@@ -30,12 +30,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // set the port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // connect to database
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://127.0.0.1/trigma-vehicle-app', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://127.0.0.1/mean_loopback', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // add Source Map Support
 SourceMapSupport.install();

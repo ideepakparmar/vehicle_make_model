@@ -26,8 +26,7 @@
     <button type="submit" [disabled]="!vehicleForm.form.valid" class="btn btn-success btn-block">Submit</button>
   </form>
 </div>
-
-<div *ngIf="vehiclDetails.length > 0" class="VehicleListBox">
+<div *ngIf="vehiclDetails && vehiclDetails.length > 0" class="VehicleListBox">
   <h2 align="center">Your Vehicle Listing</h2>
   <table id="mytable" class="table table-bordred table-striped">
     <thead>
@@ -133,7 +132,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="vehiclDetails.length <= 0" class="NoVehiclesBox">
+<div *ngIf="vehiclDetails && vehiclDetails.length <= 0" class="NoVehiclesBox">
   <div align="center" class="alert alert-info" role="alert">
     <strong>No Vehicles Available in Database</strong>
   </div>

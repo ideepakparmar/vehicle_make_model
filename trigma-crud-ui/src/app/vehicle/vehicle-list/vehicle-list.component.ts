@@ -17,6 +17,7 @@ export class VehicleListComponent implements OnInit {
   ngOnInit(): void {
     this.vehicleService.showAddVehicleBox = true;
     this.vehicleService.getVehicleDetails().subscribe((info) => {
+      // console.log(info)
       this.vehiclDetails = info.vehicleDetails;
     });
   }
@@ -27,8 +28,8 @@ export class VehicleListComponent implements OnInit {
     }
 
     this.vehicleService.createVehicle(veh).subscribe((v) => {
-      // console.log(v);
-      this.vehiclDetails.push(v.vehicle);
+      // console.log("CHECK :::", v);
+      this.vehiclDetails.push(v.vehicleInfo);
     });
   }
 

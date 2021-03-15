@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class VehicleService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'http://localhost:3001/api';
   showAddVehicleBox: boolean = true;
   constructor(private http: HttpClient) {}
 
@@ -47,12 +47,12 @@ export class VehicleService {
 
   private handleData(res: any) {
     let body = res.json();
-    console.log('RESPONSE :::', body); // for development purposes only
+    // console.log('RESPONSE :::', body); // for development purposes only
     return body || {};
   }
 
   private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for development purposes only
+    // console.error('An error occurred', error); // for development purposes only
     return Promise.reject(error.message || error);
   }
 }
