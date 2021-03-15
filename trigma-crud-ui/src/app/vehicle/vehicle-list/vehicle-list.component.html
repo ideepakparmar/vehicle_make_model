@@ -1,0 +1,140 @@
+<div align="center" class="AddVehicleBox" [hidden]="vehicleService.showAddVehicleBox">
+  <h4>Add New Vehicle Details:</h4>
+  <form (ngSubmit)="AddVehicle(vehicle);vehicleForm.reset()" #vehicleForm="ngForm">
+    <div class="form-group col-md-4">
+      <label for="make">Vehicle Make:</label>
+      <input type="text" [(ngModel)]="vehicle.make" #make="ngModel" class="form-control" name="make" id="make" required>
+      <div [hidden]="make.valid || make.pristine" class="alert alert-danger">
+        Vehicle make is required
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="model">Vehicle Model:</label>
+      <input type="text" [(ngModel)]="vehicle.model" #model="ngModel" class="form-control" name="model" id="model"
+        required>
+      <div [hidden]="model.valid || model.pristine" class="alert alert-danger">
+        Vehicle model is required
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="year">Model Year:</label>
+      <input type="text" [(ngModel)]="vehicle.year" #year="ngModel" class="form-control" name="year" id="year" required>
+      <div [hidden]="year.valid || year.pristine" class="alert alert-danger">
+        Vehicle year is required
+      </div>
+    </div>
+    <button type="submit" [disabled]="!vehicleForm.form.valid" class="btn btn-success btn-block">Submit</button>
+  </form>
+</div>
+
+<div *ngIf="vehiclDetails.length > 0" class="VehicleListBox">
+  <h2 align="center">Your Vehicle Listing</h2>
+  <table id="mytable" class="table table-bordred table-striped">
+    <thead>
+      <th>Vehicle</th>
+      <th>View</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehiclDetails">
+        <td>{{vehicle.make}}</td>
+        <td><a [routerLink]="['/vehicle', vehicle._id]" title="Click to Open {{vehicle.make}}">View</a></td>
+        <td>
+          <p data-placement="top" data-toggle="tooltip" title="Edit">
+            <button class="btn btn-primary btn-xs" (click)="showEditVehicle(vehicle)" data-title="Edit"
+              data-toggle="modal" data-target="#edit">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </p>
+        </td>
+        <td>
+          <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs"
+              (click)="showDeleteVehicle(vehicle)" data-title="Delete" data-toggle="modal" data-target="#delete"><span
+                class="glyphicon glyphicon-trash"></span></button></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Edit Modal -->
+  <div class="modal fade" id="edit" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Vehicle</h4>
+        </div>
+        <div class="modal-body">
+          <div align="center" class="EditVehicleBox">
+            <form (ngSubmit)="EditVehicle(vehicleToEdit)" #editVehicleForm="ngForm">
+              <div class="form-group col-md-4">
+                <label for="make">Vehicle Make:</label>
+                <input type="text" [(ngModel)]="vehicleToEdit.make" #vehicleeditmake="ngModel" class="form-control"
+                  name="make" id="make" required />
+                <div [hidden]="vehicleeditmake.valid || vehicleeditmake.pristine" class="alert alert-danger">
+                  Vehicle make is required
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="model">Vehicle Model:</label>
+                <input class="form-control" [(ngModel)]="vehicleToEdit.model" #vehicleeditmodel="ngModel" name="model"
+                  id="model" required>
+                <div [hidden]="vehicleeditmodel.valid || vehicleeditmodel.pristine" class="alert alert-danger">
+                  Vehicle model is required
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="year">Vehicle Year:</label>
+                <input class="form-control" [(ngModel)]="vehicleToEdit.year" #vehicleedityear="ngModel" name="year"
+                  id="year" required>
+                <div [hidden]="vehicleedityear.valid || vehicleedityear.pristine" class="alert alert-danger">
+                  Vehicle year is required
+                </div>
+              </div>
+              <button type="submit" [disabled]="!editVehicleForm.form.valid || !editVehicleForm.form.dirty"
+                class="btn btn-success btn-block">Submit</button>
+            </form>
+            <div style="margin:10px;" *ngIf="apiMessage" align="center" class="alert alert-success" role="alert">
+              <strong>{{apiMessage}}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Modal -->
+  <div class="modal fade" id="delete" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Vehicle</h4>
+        </div>
+        <div class="modal-body">
+          <div align="center" class="DeleteVehicleBox">
+            <div *ngIf="!apiMessage" align="center" class="alert alert-danger" role="alert">
+              <p>Are you sure want to delete this vehicle details?</p>
+              <strong>{{vehicleToDelete.make}}</strong>
+            </div>
+            <div style="margin:10px;" *ngIf="apiMessage" align="center" class="alert alert-success" role="alert">
+              <strong>{{vehicleToDelete.make}}</strong> {{apiMessage}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" *ngIf="!apiMessage"
+            (click)="DeleteVehicle(vehicleToDelete)">Confirm</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="vehiclDetails.length <= 0" class="NoVehiclesBox">
+  <div align="center" class="alert alert-info" role="alert">
+    <strong>No Vehicles Available in Database</strong>
+  </div>
+</div>

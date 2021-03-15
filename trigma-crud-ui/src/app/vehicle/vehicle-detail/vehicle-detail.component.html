@@ -1,0 +1,10 @@
+<div align="center">
+  <h4>Vehicle Detail:</h4>
+  <div *ngIf="vehicle">
+    <h3>{{vehicle.year}} {{vehicle.make}} {{vehicle.model}}</h3>
+    <button (click)="goBack()" type="button" class="btn btn-danger">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      Go Back
+    </button>
+  </div>
+</div>
